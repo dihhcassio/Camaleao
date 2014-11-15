@@ -32,8 +32,19 @@ public class Control : MonoBehaviour {
 			playJump();
 			controller.AddForce(Vector3.up * jumpForce * 10 * Time.deltaTime, ForceMode.VelocityChange);
 		}
-	}
 
+	}
+	
+	void Update(){
+		if (isGround ()) {
+			Debug.Log("Esta Correndo");
+			animation.CrossFade ("run");
+		} else {
+			Debug.Log("Esta Pulando");
+			animation["jump_pose"].wrapMode = WrapMode.ClampForever;
+			animation.CrossFade("jump_pose");
+		}
+	}
 
 	bool isGround(){
 		return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.5f);
