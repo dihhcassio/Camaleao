@@ -8,6 +8,8 @@ public class Control : MonoBehaviour {
 	public bool autoControl = true;
 	private Rigidbody controller;
 
+	public AudioClip jump;
+
 	// Use this for initialization
 	void Start () {
 		controller = GetComponent<Rigidbody>();
@@ -22,6 +24,7 @@ public class Control : MonoBehaviour {
 			controller.MovePosition(controller.position + moveDirection * Time.deltaTime);
 		}
 		if (Input.GetButtonDown("Jump") && !isJumping()){
+			playJump();
 			controller.AddForce(Vector3.up * jumpForce * 10 * Time.deltaTime, ForceMode.VelocityChange);
 		}
 	}
@@ -29,5 +32,10 @@ public class Control : MonoBehaviour {
 
 	bool isJumping(){
 		return Physics.Raycast(new Ray(transform.position, -Vector3.up));
+	}
+
+	void playJump(){
+		audio.clip = jump;
+		audio.Play();
 	}
 }
