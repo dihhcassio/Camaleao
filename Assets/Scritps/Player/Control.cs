@@ -37,10 +37,8 @@ public class Control : MonoBehaviour {
 	
 	void Update(){
 		if (isGround ()) {
-			Debug.Log("Esta Correndo");
 			animation.CrossFade ("run");
 		} else {
-			Debug.Log("Esta Pulando");
 			animation["jump_pose"].wrapMode = WrapMode.ClampForever;
 			animation.CrossFade("jump_pose");
 		}

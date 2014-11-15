@@ -4,30 +4,34 @@ using System.Collections.Generic;
 
 public class SeneFactory : MonoBehaviour {
 
-	public GameObject ground;
-	private float tempoAtual;
+	public GameObject[] level1;
+	public GameObject[] level2;
+	public int level = 1;
 	private Distancimentro distancimentro;
 	Queue<Ground> grounds; 
-	void Start () {
+
+	void Awake () {
 		distancimentro = GameObject.Find("Inicio").GetComponent<Distancimentro>();
 		grounds = new Queue<Ground> ();
+	}
+
+	void Start () {
 		addGround (0);
-		addGround (500);
-		addGround (1000);
-		addGround (1500);
+		addGround (50);
+		addGround (100);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if ((distancimentro.distancia%500 == 0) && (canCreate(distancimentro.distancia))) {
-			addGround (distancimentro.distancia + 1500);
+		if ((distancimentro.distancia%50 == 0) && (canCreate(distancimentro.distancia))) {
+			addGround (distancimentro.distancia + 100);
 			destroyGound();
 		}
 	}
 
 	private void addGround(float distancia){
-		GameObject chao = Instantiate (ground, new Vector3 (distancia, 0, 0), 
+		GameObject chao = Instantiate (getGroundLevel(), new Vector3 (distancia, 0, 0), 
 		                               transform.rotation) as GameObject;
 		chao.tag = "Ground";
 		Ground g = new Ground(distancimentro.distancia, chao) ;
@@ -50,6 +54,20 @@ public class SeneFactory : MonoBehaviour {
 			Ground g = grounds.Dequeue();
 			Destroy(g.getGround());
 		}
+	}
+
+	private GameObject getGroundLevel(){
+		switch (this.level) {
+		case 1:
+			return getGroundRandomFromArray(level1);
+		case 2:
+			return getGroundRandomFromArray(level2);
+		}
+		return getGroundRandomFromArray(level1);;
+	}
+
+	private GameObject getGroundRandomFromArray(GameObject[] level){
+		return level [Mathf.FloorToInt ( Random.Range (0, level.Length))];
 	}
 
 	class Ground {
