@@ -4,10 +4,11 @@ using System.Collections;
 public class Distancimentro : MonoBehaviour {
 
 	public int distancia = 0;
-	public Transform player;
+	private Transform player;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
+		player = GameObject.Find ("Player").GetComponent<Transform> ();
 	}
 	
 	// Update is called once per frame
