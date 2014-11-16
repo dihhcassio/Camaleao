@@ -35,6 +35,7 @@ public class Control : MonoBehaviour {
 				applayJump();
 			} else if (!this.isDoubleJump){
 				this.isDoubleJump = true;
+				controller.velocity = new Vector3(controller.velocity.x, 0, controller.velocity.z);
 				applayJump();
 			}
 		}
