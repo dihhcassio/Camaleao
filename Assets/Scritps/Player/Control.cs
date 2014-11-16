@@ -7,18 +7,20 @@ public class Control : MonoBehaviour {
 	public float jumpForce = 120;
 	public bool autoControl = true;
 	private Rigidbody controller;
-	float distToGround;
+	private float distToGround;
+	private bool isDoubleJump;
 
 	public AudioClip jump;
 
 	// Use this for initialization
 	void Awake () {
-		controller = GetComponent<Rigidbody>();
+		this.controller = GetComponent<Rigidbody>();
 		rigidbody.freezeRotation = true;
 	}
 
 	void Start(){
-		distToGround = collider.bounds.extents.y;
+		this.distToGround = collider.bounds.extents.y;
+		this.isDoubleJump = false;
 	}
 
 
@@ -28,16 +30,20 @@ public class Control : MonoBehaviour {
 			Vector3 moveDirection = new Vector3(moveSpeed, 0, 0);
 			controller.MovePosition(controller.position + moveDirection * Time.deltaTime);
 		}
-		if (Input.GetButtonDown("Jump") && isGround()){
-			playJump();
-			controller.AddForce(Vector3.up * jumpForce * 10 * Time.deltaTime, ForceMode.VelocityChange);
+		if (Input.GetButtonDown("Jump")){
+			if (isGround()){
+				applayJump();
+			} else if (!this.isDoubleJump){
+				this.isDoubleJump = true;
+				applayJump();
+			}
 		}
-
 	}
 	
 	void Update(){
 		if (isGround ()) {
 			animation.CrossFade ("run");
+			this.isDoubleJump = false;
 		} else {
 			animation["jump_pose"].wrapMode = WrapMode.ClampForever;
 			animation.CrossFade("jump_pose");
@@ -49,8 +55,10 @@ public class Control : MonoBehaviour {
 		//return Physics.Raycast(new Ray(groundCheck.position, -Vector3.up));
 	}
 
-	void playJump(){
+	void applayJump(){
 		audio.clip = jump;
-		audio.Play();
+		audio.Play ();
+		controller.AddForce(Vector3.up * jumpForce * 10 * Time.deltaTime, ForceMode.VelocityChange);
 	}
+
 }

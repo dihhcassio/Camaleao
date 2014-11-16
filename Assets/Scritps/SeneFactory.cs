@@ -8,7 +8,8 @@ public class SeneFactory : MonoBehaviour {
 	public GameObject[] level2;
 	public int level = 1;
 	private Distancimentro distancimentro;
-	Queue<Ground> grounds; 
+	private Queue<Ground> grounds; 
+
 
 	void Awake () {
 		distancimentro = GameObject.Find("Inicio").GetComponent<Distancimentro>();
@@ -23,7 +24,6 @@ public class SeneFactory : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		if ((distancimentro.distancia%50 == 0) && (canCreate(distancimentro.distancia))) {
 			addGround (distancimentro.distancia + 100);
 			destroyGound();
