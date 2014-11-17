@@ -31,7 +31,7 @@ public class SeneFactory : MonoBehaviour {
 	}
 
 	private void addGround(float distancia){
-		GameObject chao = Instantiate (getGroundLevel(), new Vector3 (distancia, 0, 0), 
+		GameObject chao = Instantiate (getGroundLevel(), new Vector3 (distancia,2, 0), 
 		                               transform.rotation) as GameObject;
 		chao.tag = "Ground";
 		Ground g = new Ground(distancimentro.distancia, chao) ;

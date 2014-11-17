@@ -13,6 +13,8 @@ public class Distancimentro : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(player){
 		distancia = Mathf.FloorToInt(player.transform.position.x - transform.position.x);
+	}
 	}
 }
